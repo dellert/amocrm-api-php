@@ -44,6 +44,8 @@ class AmoCRMApiRequest
 
     public const EMBEDDED = '_embedded';
 
+    public static $connectionApiTimeout = 10;
+
     /**
      * @var AccessTokenInterface
      */
@@ -107,6 +109,14 @@ class AmoCRMApiRequest
     }
 
     /**
+     * @param int $connectionApiTimeout
+     */
+    public static function setConnectionApiTimeout(int $connectionApiTimeout): void
+    {
+        self::$connectionApiTimeout = $connectionApiTimeout;
+    }
+
+    /**
      * Обновляем в библиотеке oAuth аккаунт токен по рефрешу
      * @throws AmoCRMoAuthApiException
      */
@@ -156,7 +166,7 @@ class AmoCRMApiRequest
                 $this->oAuthClient->getAccountUrl() . $method,
                 [
                     'json' => $body,
-                    'connect_timeout' => self::CONNECT_TIMEOUT,
+                    'connect_timeout' => self::$connectionApiTimeout,
                     'headers' => $headers,
                     'http_errors' => false,
                     'query' => $queryParams,
@@ -231,7 +241,7 @@ class AmoCRMApiRequest
                 $this->oAuthClient->getAccountUrl() . $method,
                 [
                     RequestOptions::JSON => $body,
-                    RequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
+                    RequestOptions::CONNECT_TIMEOUT => self::$connectionApiTimeout,
                     RequestOptions::HEADERS => $headers,
                     RequestOptions::HTTP_ERRORS => false,
                     RequestOptions::QUERY => $queryParams,
@@ -306,7 +316,7 @@ class AmoCRMApiRequest
                 $this->oAuthClient->getAccountUrl() . $method,
                 [
                     RequestOptions::JSON => $body,
-                    RequestOptions::CONNECT_TIMEOUT => self::CONNECT_TIMEOUT,
+                    RequestOptions::CONNECT_TIMEOUT => self::$connectionApiTimeout,
                     RequestOptions::HEADERS => $headers,
                     RequestOptions::HTTP_ERRORS => false,
                     RequestOptions::QUERY => $queryParams,
@@ -385,7 +395,7 @@ class AmoCRMApiRequest
                 self::GET_REQUEST,
                 $method,
                 [
-                    'connect_timeout' => self::CONNECT_TIMEOUT,
+                    'connect_timeout' => self::$connectionApiTimeout,
                     'headers' => $headers,
                     'http_errors' => false,
                     'query' => $queryParams,
